@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: kafka-admin-web
+  name: kafka-controlcenter
   namespace: system-msg
   labels:
    app: kafka-admin-web
@@ -9,39 +9,28 @@ spec:
   replicas: 1
   selector:
     matchLabels:
-      app: kafka-admin-web	
+      app: kafka-controlcenter	
   template:
     metadata:
       labels:
-        app: kafka-admin-web
+        app: kafka-controlcenter
     spec:
       containers:
       - name: kafka-admin-web
-        image: hlebalbau/kafka-manager:latest
+        image: confluentinc/cp-enterprise-control-center:latest
         ports:
-        - containerPort: 9000
-        env:
-        - name: ZK_HOSTS
-          value: "zoo1:2181,zoo2:2181"
-        - name: APPLICATION_SECRET
-          value: "random-secret"
-        - name: KAFKA_MANAGER_AUTH_ENABLED
-          value: "true"
-        - name: KAFKA_MANAGER_USERNAME
-          value: "admin"
-        - name: KAFKA_MANAGER_PASSWORD
-          value: "21121986"
+        - containerPort: 9021
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: kafka-admin-web
+  name: kafka-controlcenter
   namespace: system-msg
 spec:
   type: NodePort
   ports:
-    - targetPort: 9000
-      port: 9000
-      nodePort: 30090
+    - targetPort: 9021
+      port: 9021
+      nodePort: 30021
   selector:
-    app: kafka-admin-web
+    app: kafka-controlcenter
