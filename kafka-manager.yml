@@ -117,6 +117,8 @@ spec:
           value: "2888"
         - name: ZOO2_SERVICE_PORT_PORT_3888
           value: "3888"
+        - name: CONTROL_CENTER_BOOTSTRAP_SERVERS
+          value: "kaf1:9092,kaf2:9092,kaf3:9092"
 ---
 apiVersion: v1
 kind: Service
